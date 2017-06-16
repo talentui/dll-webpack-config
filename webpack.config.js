@@ -2,15 +2,21 @@ const path = require("path");
 const webpack = require("webpack");
 const dev = "development";
 const prod = "production";
-const afterFix = ".dev";
-const emptyStr = "";
 const { NODE_ENV = dev, npm_package_version, npm_package_name } = process.env;
 const isProduction = NODE_ENV === prod;
-const version = npm_package_version;
-const outputFileName = npm_package_name.indexOf("@") === -1
-    ? npm_package_name
-    : npm_package_name.split("/")[1];
-const outputVarName = outputFileName.split("-").join("_");
+const {
+    manifest,
+    filename
+} = require("@beisen/talent-ui-dll-naming-convention")(
+    npm_package_name,
+    npm_package_version,
+    isProduction
+);
+
+//变量名称中不能有减号，所以把-号换成下划线
+const outputVarName = filename.indexOf("-") === -1
+    ? filename
+    : filename.split("-").join("_");
 
 /**
  * @options
@@ -30,9 +36,7 @@ module.exports = options => {
         new webpack.DllPlugin({
             path: path.join(
                 targetDir,
-                `${outputFileName}${isProduction
-                    ? `-${version}`
-                    : afterFix}.manifest.json`
+                manifest
             ),
             name: "[name]",
             context: options.root
@@ -48,9 +52,7 @@ module.exports = options => {
         },
         output: {
             path: path.join(targetDir),
-            filename: `${outputFileName}${isProduction
-                ? `-${version}.min`
-                : afterFix}.js`,
+            filename,
             library: "[name]"
         },
         plugins: plugins,
