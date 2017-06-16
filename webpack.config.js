@@ -6,7 +6,7 @@ const afterFix = ".dev";
 const emptyStr = "";
 const { NODE_ENV = dev, npm_package_version, npm_package_name } = process.env;
 const isProduction = NODE_ENV === prod;
-const version = npm_package_version.split(".").join("");
+const version = npm_package_version;
 const outputFileName = npm_package_name.indexOf("@") === -1
     ? npm_package_name
     : npm_package_name.split("/")[1];
