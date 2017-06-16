@@ -19,7 +19,6 @@ const outputVarName = outputFileName.split("-").join("_");
  */
 
 module.exports = options => {
-
     const targetDir = path.resolve(options.root, "lib/");
 
     const plugins = [
@@ -31,9 +30,9 @@ module.exports = options => {
         new webpack.DllPlugin({
             path: path.join(
                 targetDir,
-                `${outputFileName}.manifest${isProduction
-                    ? `.${version}`
-                    : afterFix}.json`
+                `${outputFileName}${isProduction
+                    ? `-${version}`
+                    : afterFix}.manifest.json`
             ),
             name: "[name]",
             context: options.root
@@ -50,13 +49,13 @@ module.exports = options => {
         output: {
             path: path.join(targetDir),
             filename: `${outputFileName}${isProduction
-                ? `.${version}`
+                ? `-${version}.min`
                 : afterFix}.js`,
             library: "[name]"
         },
         plugins: plugins,
         resolve: {
-            modules: [path.resolve(options.root,"node_modules/"), ]
+            modules: [path.resolve(options.root, "node_modules/")]
         }
     };
 };
