@@ -31,8 +31,8 @@ module.exports = options => {
         new webpack.DllPlugin({
             path: path.join(
                 targetDir,
-                `${outputFileName}.manifest.${version}${isProduction
-                    ? emptyStr
+                `${outputFileName}.manifest${isProduction
+                    ? `.${version}`
                     : afterFix}.json`
             ),
             name: "[name]",
@@ -49,8 +49,8 @@ module.exports = options => {
         },
         output: {
             path: path.join(targetDir),
-            filename: `${outputFileName}.${version}${isProduction
-                ? emptyStr
+            filename: `${outputFileName}${isProduction
+                ? `.${version}`
                 : afterFix}.js`,
             library: "[name]"
         },
