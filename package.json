@@ -1,6 +1,6 @@
 {
   "name": "@beisen/dll-webpack-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "webpack.config.js",
   "author": {
     "name": "Liguoming",

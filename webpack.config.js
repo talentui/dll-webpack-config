@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const targetDir = path.join(__dirname, "build");
 const dev = "development";
 const prod = "production";
 const afterFix = ".dev";
@@ -20,6 +19,9 @@ const outputVarName = outputFileName.split("-").join("_");
  */
 
 module.exports = options => {
+
+    const targetDir = path.resolve(options.root, "lib/");
+
     const plugins = [
         new webpack.DefinePlugin({
             "process.env": {
@@ -28,7 +30,7 @@ module.exports = options => {
         }),
         new webpack.DllPlugin({
             path: path.join(
-                path.resolve(options.root, "lib/"),
+                targetDir,
                 `${outputFileName}.manifest.${version}${isProduction
                     ? emptyStr
                     : afterFix}.json`
