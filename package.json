@@ -1,6 +1,6 @@
 {
-  "name": "@beisen/dll-webpack-config",
-  "version": "1.0.9",
+  "name": "@beisen/talent-ui-dll-webpack-config",
+  "version": "1.0.0",
   "main": "webpack.config.js",
   "author": {
     "name": "Liguoming",
@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "webpack": "^2.6.1"
-  },
-  "devDependencies": {
+    "webpack": "^2.6.1",
     "@beisen/talent-ui-dll-naming-convention": "^1.0.0"
   }
 }
