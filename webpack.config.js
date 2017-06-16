@@ -39,7 +39,7 @@ module.exports = options => {
     ];
 
     if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin());
-    else plugins.push(webpack.NamedModulesPlugin());
+    else plugins.push(new webpack.NamedModulesPlugin());
 
     return {
         entry: {
