@@ -36,7 +36,7 @@ module.exports = options => {
                     : afterFix}.json`
             ),
             name: "[name]",
-            context: __dirname
+            context: options.root
         })
     ];
 
@@ -56,7 +56,7 @@ module.exports = options => {
         },
         plugins: plugins,
         resolve: {
-            modules: [path.resolve(__dirname), "node_modules"]
+            modules: [path.resolve(options.root,"node_modules/"), ]
         }
     };
 };
