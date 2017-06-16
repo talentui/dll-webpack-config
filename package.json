@@ -1,5 +1,5 @@
 {
-  "name": "dll-webpack-config",
+  "name": "@beisen/dll-webpack-config",
   "version": "1.0.0",
   "main": "webpack.config.js",
   "author": {
