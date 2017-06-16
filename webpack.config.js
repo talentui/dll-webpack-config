@@ -55,7 +55,8 @@ module.exports = options => {
         },
         plugins: plugins,
         resolve: {
-            modules: [path.resolve(options.root, "node_modules/")]
+            modules: [path.resolve(options.root, "node_modules/")],
+            alias: options.alias || {}
         }
     };
 };
