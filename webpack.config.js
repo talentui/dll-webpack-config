@@ -44,7 +44,9 @@ module.exports = options => {
         })
     ];
 
-    if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin());
+    if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true
+    }));
     else plugins.push(new webpack.NamedModulesPlugin());
 
     return {
