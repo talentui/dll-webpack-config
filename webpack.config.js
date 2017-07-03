@@ -25,7 +25,7 @@ const outputVarName = filename.indexOf("-") === -1
  */
 
 module.exports = options => {
-    const targetDir = path.resolve(options.root, "lib/");
+    const targetDir = path.resolve(options.root, "dist/");
 
     const plugins = [
         new webpack.DefinePlugin({
