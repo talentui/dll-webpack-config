@@ -60,6 +60,7 @@ module.exports = options => {
         resolve: {
             modules: [path.resolve(options.root, "node_modules/")],
             alias: options.alias || {}
-        }
+        },
+        devtool: isProduction ? 'cheap-source-map' : false
     };
 };
