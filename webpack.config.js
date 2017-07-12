@@ -33,7 +33,7 @@ module.exports = options => {
                 NODE_ENV: JSON.stringify(isProduction ? prod : dev)
             }
         }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        // new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.DllPlugin({
             path: path.join(
                 targetDir,
