@@ -19,11 +19,6 @@ const outputVarName = filename.indexOf("-") === -1
     : filename.split(/-|\./).join("_").split(/_min|_js/).join('');
 
 /**
-* dll parser
-*/
-const { parseDll } = require('./helper.js'); 
-const {appRoot} = require('./constants.js');
-/**
  * @options
  * root: 项目根目录
  * venders: vender列表
@@ -48,16 +43,10 @@ module.exports = (options = {}) => {
         })
     ];
     //DllReferencePlugins
-    if(options.dllList && options.dllList.length !== 0 ){
-        const dllList = parseDll(options.dllList);
-        const DllReferencePlugins =  dllList.map(dll => {
-            return new (require("webpack").DllReferencePlugin)({
-                manifest: require(dll.manifest),
-                context: appRoot
-            });
-        });
-        plugins = plugins.concat(DllReferencePlugins);
-    }
+    const dllReferencePlugins = require('@beisen/talent-ui-dll-parser-util')(options.dllList);
+
+    plugins = plugins.concat(dllReferencePlugins);
+    
     if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true
     }));
