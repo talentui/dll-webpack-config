@@ -3,7 +3,6 @@ const webpack = require("webpack");
 const dev = "development";
 const prod = "production";
 const { NODE_ENV = dev, npm_package_version = '', npm_package_name = '' } = process.env;
-console.log(npm_package_version, npm_package_name)
 const isProduction = NODE_ENV === prod;
 const {
     manifest,
