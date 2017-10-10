@@ -2,7 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const dev = "development";
 const prod = "production";
-const { NODE_ENV = dev, npm_package_version, npm_package_name } = process.env;
+const { NODE_ENV = dev, npm_package_version = '', npm_package_name = '' } = process.env;
+console.log(npm_package_version, npm_package_name)
 const isProduction = NODE_ENV === prod;
 const {
     manifest,
@@ -29,16 +30,9 @@ const {appRoot} = require('./constants.js');
  * venders: vender列表
  */
 
-module.exports = options => {
+module.exports = (options = {}) => {
     const targetDir = path.resolve(options.root, "dist/");
-    const dllList = parseDll(options.dllList);
-    const DllReferencePlugins =  dllList.map(dll => {
-        return new (require("webpack").DllReferencePlugin)({
-            manifest: require(dll.manifest),
-            context: appRoot
-        });
-    });
-    const plugins = [
+    let plugins = [
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify(isProduction ? prod : dev)
@@ -53,9 +47,18 @@ module.exports = options => {
             name: "[name]",
             context: options.root
         })
-    ].concat(DllReferencePlugins);
-
-    // console.log(DllReferencePlugin);
+    ];
+    //DllReferencePlugins
+    if(options.dllList && options.dllList.length !== 0 ){
+        const dllList = parseDll(options.dllList);
+        const DllReferencePlugins =  dllList.map(dll => {
+            return new (require("webpack").DllReferencePlugin)({
+                manifest: require(dll.manifest),
+                context: appRoot
+            });
+        });
+        plugins = plugins.concat(DllReferencePlugins);
+    }
     if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true
     }));
@@ -76,6 +79,5 @@ module.exports = options => {
             alias: options.alias || {}
         },
         devtool: isProduction ? 'cheap-source-map' : false,
-        // externals: [require("webpack-node-externals")()],        
     };
 };
