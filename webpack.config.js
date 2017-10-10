@@ -18,6 +18,7 @@ const outputVarName = filename.indexOf("-") === -1
     ? filename
     : filename.split(/-|\./).join("_").split(/_min|_js/).join('');
 
+const { generateDllReferencePlugins, parseDll } = require('@beisen/talent-ui-dll-parser-util')
 /**
  * @options
  * root: 项目根目录
@@ -43,7 +44,7 @@ module.exports = (options = {}) => {
         })
     ];
     //DllReferencePlugins
-    const dllReferencePlugins = require('@beisen/talent-ui-dll-parser-util')(options.dllList);
+    const dllReferencePlugins = generateDllReferencePlugins(parseDll(options.dllList));
 
     plugins = plugins.concat(dllReferencePlugins);
     
