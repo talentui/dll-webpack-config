@@ -10,5 +10,8 @@
   "dependencies": {
     "@beisen/talent-ui-dll-naming-convention": "^1.0.1",
     "webpack": "^3.0.0"
+  },
+  "scripts": {
+    "test":"jest"
   }
 }
