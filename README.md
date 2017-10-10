@@ -69,3 +69,20 @@
     - qd-fed-dll.dev.js
     - qd-fed-dll.dev.manifest.json
 ```
+
+## 更新日志
+
+#### 10.10 
+
+> 添加对dllList参数支持，如果当前需要打包的dll依赖了其他的dll，添加到dllList参数中即可
+
+```js
+    const dllWebpackConfig = require('@beisen/talent-ui-dll-webpack-config');
+    const path = require('path');
+
+    module.exports = dllWebpackConfig({
+        root: path.resove(__dirname /**/), //这里统一为项目的根目录，方便使用统一的context,
+        venders: require('./vender-list'),
+        dllList: ['@beisen/talent-ui-dll-foundation']
+    })
+```
