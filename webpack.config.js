@@ -19,6 +19,11 @@ const outputVarName = filename.indexOf("-") === -1
     : filename.split(/-|\./).join("_").split(/_min|_js/).join('');
 
 /**
+* dll parser
+*/
+const { parseDll } = require('./helper.js'); 
+const {appRoot} = require('./constants.js');
+/**
  * @options
  * root: 项目根目录
  * venders: vender列表
@@ -26,7 +31,13 @@ const outputVarName = filename.indexOf("-") === -1
 
 module.exports = options => {
     const targetDir = path.resolve(options.root, "dist/");
-
+    const dllList = parseDll(options.dllList);
+    const DllReferencePlugins =  dllList.map(dll => {
+        return new (require("webpack").DllReferencePlugin)({
+            manifest: require(dll.manifest),
+            context: appRoot
+        });
+    });
     const plugins = [
         new webpack.DefinePlugin({
             "process.env": {
@@ -42,8 +53,9 @@ module.exports = options => {
             name: "[name]",
             context: options.root
         })
-    ];
+    ].concat(DllReferencePlugins);
 
+    // console.log(DllReferencePlugin);
     if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: true
     }));
@@ -63,6 +75,7 @@ module.exports = options => {
             modules: [path.resolve(options.root, "node_modules/")],
             alias: options.alias || {}
         },
-        devtool: isProduction ? 'cheap-source-map' : false
+        devtool: isProduction ? 'cheap-source-map' : false,
+        // externals: [require("webpack-node-externals")()],        
     };
 };
