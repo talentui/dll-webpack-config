@@ -2,21 +2,22 @@ const path = require("path");
 const webpack = require("webpack");
 const dev = "development";
 const prod = "production";
-const { NODE_ENV = dev, npm_package_version = '', npm_package_name = '' } = process.env;
-const isProduction = NODE_ENV === prod;
 const {
-    manifest,
-    filename
-} = require("@talentui/dll-naming")(
+    NODE_ENV = dev,
+    npm_package_version = "",
+    npm_package_name = ""
+} = process.env;
+const isProduction = NODE_ENV === prod;
+const { manifest, filename } = require("@talentui/dll-naming")(
     npm_package_name,
     npm_package_version,
     isProduction
 );
 
 //变量名称中不能有减号，所以把-号换成下划线
-const outputVarName = npm_package_name.split(/@|\/|\-|\./).join('_');
+const outputVarName = npm_package_name.split(/@|\/|\-|\./).join("_");
 
-const DllParser = require('@talentui/dll-parser')
+const DllParser = require("@talentui/dll-parser");
 /**
  * @options
  * root: 项目根目录
@@ -33,24 +34,28 @@ module.exports = (options = {}) => {
         }),
         // new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.DllPlugin({
-            path: path.join(
-                targetDir,
-                manifest
-            ),
+            path: path.join(targetDir, manifest),
             name: "[name]",
             context: options.root
         })
     ];
     //DllReferencePlugins
-    const dllReferencePlugins = (new DllParser(options.dllList, isProduction)).getRefPlugin(options.root);
+    const dllReferencePlugins = new DllParser(
+        options.dllList,
+        isProduction
+    ).getRefPlugin(options.root);
     // new DllParser(options.dllList, isProduction)
 
     plugins = plugins.concat(dllReferencePlugins);
-    
-    if (isProduction) plugins.push(new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true
-    }));
-    else plugins.push(new webpack.NamedModulesPlugin());
+
+    if (isProduction) {
+        plugins.push(
+            new webpack.optimize.UglifyJsPlugin({
+                sourceMap: true
+            })
+        );
+    }
+    // else plugins.push(new webpack.NamedModulesPlugin());
 
     return {
         entry: {
@@ -66,6 +71,6 @@ module.exports = (options = {}) => {
             modules: [path.resolve(options.root, "node_modules/")],
             alias: options.alias || {}
         },
-        devtool: isProduction ? 'cheap-source-map' : false,
+        devtool: isProduction ? "cheap-source-map" : false
     };
 };
