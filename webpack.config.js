@@ -7,7 +7,7 @@ const isProduction = NODE_ENV === prod;
 const {
     manifest,
     filename
-} = require("@beisen/talent-ui-dll-naming-convention")(
+} = require("@talentui/dll-naming")(
     npm_package_name,
     npm_package_version,
     isProduction
@@ -18,7 +18,7 @@ const outputVarName = filename.indexOf("-") === -1
     ? filename
     : filename.split(/-|\./).join("_").split(/_min|_js/).join('');
 
-const { generateDllReferencePlugins, parseDll } = require('@beisen/talent-ui-dll-parser-util')
+const DllParser = require('@talentui/dll-parser')
 /**
  * @options
  * root: 项目根目录
@@ -44,7 +44,8 @@ module.exports = (options = {}) => {
         })
     ];
     //DllReferencePlugins
-    const dllReferencePlugins = generateDllReferencePlugins(parseDll(options.dllList));
+    const dllReferencePlugins = (new DllParser(options.dllList, isProduction)).getRefPlugin(options.root);
+    // new DllParser(options.dllList, isProduction)
 
     plugins = plugins.concat(dllReferencePlugins);
     
