@@ -14,9 +14,7 @@ const {
 );
 
 //变量名称中不能有减号，所以把-号换成下划线
-const outputVarName = filename.indexOf("-") === -1
-    ? filename
-    : filename.split(/-|\./).join("_").split(/_min|_js/).join('');
+const outputVarName = npm_package_name.split(/@|\/|\-|\./).join('_');
 
 const DllParser = require('@talentui/dll-parser')
 /**
