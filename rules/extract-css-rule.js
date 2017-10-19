@@ -1,7 +1,7 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const {isProduction, publicPath} = require('../constants');
 
-export default {
+module.exports = {
   test: /\.css$/,
   use: ExtractTextPlugin.extract({
       use: {
