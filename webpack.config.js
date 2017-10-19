@@ -1,13 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
-const dev = "development";
-const prod = "production";
+const {dev, prod, isProduction} = require('./constants')
 const {
-    NODE_ENV = dev,
     npm_package_version = "",
     npm_package_name = ""
 } = process.env;
-const isProduction = NODE_ENV === prod;
 const { manifest, filename } = require("@talentui/dll-naming")(
     npm_package_name,
     npm_package_version,
@@ -18,6 +15,7 @@ const { manifest, filename } = require("@talentui/dll-naming")(
 const outputVarName = npm_package_name.split(/@|\/|\-|\./).join("_");
 
 const DllParser = require("@talentui/dll-parser");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 /**
  * @options
  * root: 项目根目录
@@ -56,7 +54,13 @@ module.exports = (options = {}) => {
         );
     }
     // else plugins.push(new webpack.NamedModulesPlugin());
-
+    plugins.push(
+      new ExtractTextPlugin({
+        filename: isProduction ? "css/[name]-[hash].min.css" : "css/[name].css",
+        disable: !isProduction,
+        allChunks: true
+      })
+    );
     return {
         entry: {
             [outputVarName]: options.venders
@@ -65,6 +69,9 @@ module.exports = (options = {}) => {
             path: path.join(targetDir),
             filename,
             library: "[name]"
+        },
+        module:{
+          rules:require('./rules')
         },
         plugins: plugins,
         resolve: {
