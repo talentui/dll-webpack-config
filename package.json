@@ -19,6 +19,7 @@
     "@talentui/dll-parser": "^1.0.1",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.5",
     "webpack": "^3.0.0"
   },
   "scripts": {
