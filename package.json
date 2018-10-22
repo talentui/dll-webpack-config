@@ -1,6 +1,6 @@
 {
   "name": "@talentui/dll-webpack-config",
-  "version": "0.0.0-development",
+  "version": "4.0.0-beta.0",
   "main": "webpack.config.js",
   "author": {
     "name": "Liguoming",
@@ -17,11 +17,11 @@
   "dependencies": {
     "@talentui/dll-naming": "^1.0.2",
     "@talentui/dll-parser": "^1.0.2",
-    "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "2.1.2",
-    "file-loader": "^1.1.5",
-    "sass-loader": "^6.0.6",
-    "webpack": "^3.0.0"
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "mini-css-extract-plugin": "^0.4.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "uglifyjs-webpack-plugin": "^2.0.1"
   },
   "scripts": {
     "cm": "git-cz",
@@ -32,7 +32,13 @@
     "@talentui/cz-package-changelog": "^1.0.0",
     "commitizen": "^2.9.6",
     "jest": "^21.2.1",
-    "semantic-release": "^8.2.0"
+    "semantic-release": "^8.2.0",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "peerDependencies": {
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2"
   },
   "config": {
     "commitizen": {
