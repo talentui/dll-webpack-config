@@ -39,7 +39,8 @@ module.exports = (options = {root: process.cwd()}) => {
             path: path.join(targetDir, manifest),
             name: "[name]",
             context: options.root
-        })
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ];
     //DllReferencePlugins
     const dllReferencePlugins = new DllParser(
@@ -50,13 +51,6 @@ module.exports = (options = {root: process.cwd()}) => {
 
     plugins = plugins.concat(dllReferencePlugins);
 
-    if (isProduction) {
-        plugins.push(
-            new webpack.optimize.UglifyJsPlugin({
-                sourceMap: true
-            })
-        );
-    }
     // else plugins.push(new webpack.NamedModulesPlugin());
     if (isProduction) {
         plugins.push(
@@ -90,9 +84,11 @@ module.exports = (options = {root: process.cwd()}) => {
             alias: options.alias || {}
         },
         devtool: isProduction ? "cheap-source-map" : false,
-        minimizer: [
-            require('./minimizers/uglify-css'),
-            require('./minimizers/uglify-js')
-        ]
+        optimization: {
+            minimizer: [
+                require('./minimizers/uglify-css'),
+                require('./minimizers/uglify-js')
+            ]
+        }
     };
 };
